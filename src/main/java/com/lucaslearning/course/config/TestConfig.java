@@ -1,5 +1,6 @@
 package com.lucaslearning.course.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.lucaslearning.course.entities.Order;
 import com.lucaslearning.course.entities.User;
+import com.lucaslearning.course.repositories.OrderRepository;
 import com.lucaslearning.course.repositories.UserRepository;
 
 @Configuration
@@ -18,6 +21,9 @@ public class TestConfig implements CommandLineRunner{
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Autowired
+	private OrderRepository OrderRepository;
+	
 	//instanciar objetos quando o programa for executado, dai o CammandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
@@ -27,7 +33,14 @@ public class TestConfig implements CommandLineRunner{
 		User u3 = new User(null, "Lucas Silva", "lucas@gmail.com", "999999999", "123456");
 		User u4 = new User(null, "Nelio Alves", "nelio@gmail.com", "977777777", "123456"); 
 		
+		Order o1 = new Order(null, Instant.parse("2019-06-20T19:53:07Z"), u3);
+		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u4);
+		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u3);
+		Order o4 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), u1);
+		Order o5 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), u2);
+		
 		userRepository.saveAll(Arrays.asList(u1,u2,u3,u4));
+		OrderRepository.saveAll(Arrays.asList(o1,o2,o3,o4,o5)); 
 	}
 	
 }
