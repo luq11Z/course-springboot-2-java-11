@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.lucaslearning.course.entities.User;
 import com.lucaslearning.course.repositories.UserRepository;
+import com.lucaslearning.course.services.exceptions.ResourceNotFoundException;
 
 /* component registration, quando um objeto vai poder ser injetavel pelo mecanismo de injecao
  * de dependencia do spring, a classe desse objeto tem que estar registada no mecanismo de injecao
@@ -27,7 +28,7 @@ public class UserService {
 	
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id); //essa operacao retorna um obj do tipo Optional
-		return obj.get(); //retorna o obj do tipo User dentro do Optional
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id)); //retorna o obj do tipo User dentro do Optional
 	}
 	
 	public User insert(User obj) {
